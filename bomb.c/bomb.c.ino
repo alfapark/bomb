@@ -19,6 +19,10 @@ int M2 = 15;
 int M3 = 16;
 int M4 = 17;
 
+// trololo
+int Tmeter = 10;
+int TButton = 11;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -45,6 +49,10 @@ void setup() {
   pinMode(M2, INPUT_PULLUP);
   pinMode(M3, INPUT_PULLUP);
   pinMode(M4, INPUT_PULLUP);
+
+  //trololo
+  pinMode(TButton, INPUT_PULLUP);
+  pinMode(Tmeter, OUTPUT);
 }
 
 void read_pins(int n, int * pins, int * outputs){
@@ -96,8 +104,6 @@ void check_snipping(){
 unsigned long previousMillis_cp = 0;        // will store last time LED was updated
 const long interval_cp = 10;           // interval at which to blink (milliseconds)
 int i_cp = 0;
-unsigned long last_read_cp = 0;
-unsigned long last_read_interval_cp = 500;
 int reads_cp[4][4] = {0};
 void print_conns(){
   Serial.print("conns: \t");
@@ -120,10 +126,10 @@ void connect_pins(){
     set_kth_pin_low_only(4, i_cp, output_pins);
   }
   int input_pins[4] = {CPI1, CPI2, CPI3, CPI4};
-  read_pins(4, input_pins, reads_cp[i_cp]);
-
-  if(last_read_cp + last_read_interval_cp < millis()){
-    last_read_cp = millis();
+  int inputs[4];
+  read_pins(4, input_pins, inputs);
+  if(!are_same(4, inputs, reads_cp[i_cp])){
+    copy_pins(4, inputs, reads_cp[i_cp]);
     print_conns();
   }
 }
@@ -153,9 +159,28 @@ void morse(){
   }
 }
 
+unsigned long last_change = 0;
+int interval = 100;
+int i = 0;
+void trololo(){
+  if(last_change + interval < millis()){
+    last_change = millis();
+    i--;
+    if (i < 0)i = 0;
+    if (digitalRead(TButton) == 0){
+      i = i + 10; //Tlacitko na dobijeni casu
+    }
+    if (i > 255){
+      i = 255;
+    }
+    analogWrite(Tmeter, i);//Output pin - merak
+  }
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
  check_snipping();
  connect_pins();
  morse();
+ trololo();
 }
