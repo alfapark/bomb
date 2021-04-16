@@ -74,6 +74,12 @@ void print_pins(int n, int * pins){
   }
 }
 
+void set_kth_pin_low_only(int n, int k, int * pins){
+  for(int i = 0; i < n; ++i){
+    digitalWrite(pins[i], i == k ? LOW : HIGH);
+  }
+}
+
 int last_inputs_s[5] = {0};
 void check_snipping(){
   int pins[5] = {A0, A1, A2, A3, A4}; 
@@ -107,45 +113,14 @@ void print_conns(){
 }
 
 void connect_pins(){
+  int output_pins[4] = {CPO1, CPO2, CPO3, CPO4};
   if (millis() - previousMillis_cp >= interval_cp) {
     previousMillis_cp = millis();
-
-    i_cp++;
-    if (i_cp == 4)i_cp = 0;
-
-    switch (i_cp) {
-      case 0:
-        digitalWrite(CPO1, LOW);
-        digitalWrite(CPO2, HIGH);
-        digitalWrite(CPO3, HIGH);
-        digitalWrite(CPO4, HIGH);
- 
-        break;
-      case 1:
-        digitalWrite(CPO1, HIGH);
-        digitalWrite(CPO2, LOW);
-        digitalWrite(CPO3, HIGH);
-        digitalWrite(CPO4, HIGH);
-        break;
-      case 2:
-        digitalWrite(CPO1, HIGH);
-        digitalWrite(CPO2, HIGH);
-        digitalWrite(CPO3, LOW);
-        digitalWrite(CPO4, HIGH);
-        break;
-      case 3:
-        digitalWrite(CPO1, HIGH);
-        digitalWrite(CPO2, HIGH);
-        digitalWrite(CPO3, HIGH);
-        digitalWrite(CPO4, LOW);
-        break;
-    }
+    i_cp = (i_cp + 1) % 4;  
+    set_kth_pin_low_only(4, i_cp, output_pins);
   }
-  
-  reads_cp[i_cp][0] = digitalRead(CPI1);
-  reads_cp[i_cp][1] = digitalRead(CPI2);
-  reads_cp[i_cp][2] = digitalRead(CPI3);
-  reads_cp[i_cp][3] = digitalRead(CPI4);
+  int input_pins[4] = {CPI1, CPI2, CPI3, CPI4};
+  read_pins(4, input_pins, reads_cp[i_cp]);
 
   if(last_read_cp + last_read_interval_cp < millis()){
     last_read_cp = millis();
