@@ -53,7 +53,7 @@ void read_pins(int n, int * pins, int * outputs){
   }
 }
 
-void copy(int n, int * from, int * to){
+void copy_pins(int n, int * from, int * to){
   for(int i = 0; i <n; ++i){
     to[i] = from[i];
   }
@@ -74,16 +74,16 @@ void print_pins(int n, int * pins){
   }
 }
 
-int last_outputs_s[5] = {0};
+int last_inputs_s[5] = {0};
 void check_snipping(){
   int pins[5] = {A0, A1, A2, A3, A4}; 
-  int outputs[5]; 
-  read_pins(5, pins, outputs);
-  if(!are_same(5, last_outputs_s, outputs)){
+  int inputs[5]; 
+  read_pins(5, pins, inputs);
+  if(!are_same(5, last_inputs_s, inputs)){
     Serial.print("Snipp: \t");
-    print_pins(5, outputs);
+    print_pins(5, inputs);
     Serial.println();
-    copy(5, outputs, last_outputs_s);
+    copy_pins(5, inputs, last_inputs_s);
   }
 }
 
@@ -164,23 +164,16 @@ void morse_diode(){
   }
 }
 
-unsigned long last_read_m = 0;
-unsigned long last_read_interval_m = 500;
-
+int last_inputs_morse[4];
 void morse(){
   morse_diode();
-  if(last_read_m + last_read_interval_m < millis()){
-    last_read_m = millis();
-    int d1 = digitalRead(M1);
-    int d2 = digitalRead(M2);
-    int d3 = digitalRead(M3);
-    int d4 = digitalRead(M4);
-  
+  int pins[4] = {M1, M2, M3, M4};
+  int inputs[4];
+  read_pins(4, pins, inputs);
+  if(!are_same(4, inputs, last_inputs_morse)){
     Serial.print("Morse: \t");
-    Serial.print(d1);
-    Serial.print(d2);
-    Serial.print(d3);
-    Serial.print(d4);
+    print_pins(4, inputs);
+    copy_pins(4, inputs, last_inputs_morse);
     Serial.println();
   }
 }
