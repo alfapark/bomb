@@ -7,9 +7,9 @@ const int N_CONNECT_PINS = 4;
 class ConnectingModule : public Module{
 
 public:
-ConnectingModule( int success_pin, int fail_pin, int input_pins[N_CONNECT_PINS],
+ConnectingModule( int success_led_pin, int fail_led_pin, int input_pins[N_CONNECT_PINS],
     int output_pins[N_CONNECT_PINS], int win_mask[N_CONNECT_PINS][N_CONNECT_PINS]): 
-  Module(success_pin, fail_pin), current_cycle(0), last_measurement(0){
+  Module(success_led_pin, fail_led_pin), current_cycle(0), last_measurement(0){
     for(int i = 0; i < N_CONNECT_PINS; ++i){
       pinMode(input_pins[i], INPUT_PULLUP); 
       pinMode(output_pins[i], OUTPUT); 

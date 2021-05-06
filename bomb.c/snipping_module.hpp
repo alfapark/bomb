@@ -7,8 +7,8 @@ const int N_SNIPPING_PINS = 5;
 class SnippingModule : public Module{
 
 public:
-  SnippingModule(int SP, int FP, int wire_pins[N_SNIPPING_PINS], int win_mask[N_SNIPPING_PINS]): 
-  Module(SP, FP), debounced(0){
+  SnippingModule(int success_led_pin, int fail_led_pin, int wire_pins[N_SNIPPING_PINS], int win_mask[N_SNIPPING_PINS]): 
+  Module(success_led_pin, fail_led_pin), debounced(0){
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
       pinMode(wire_pins[i], INPUT_PULLUP); 
     }
@@ -24,7 +24,7 @@ private:
   int pins[N_SNIPPING_PINS];
   int mask[N_SNIPPING_PINS];
   int last[N_SNIPPING_PINS];
-}
+};
 
 void SnippingModule::run(){ 
     if(debounced + debounce_interval > millis()){
@@ -39,7 +39,7 @@ void SnippingModule::run(){
       Serial.println();
       copy_pins(N_SNIPPING_PINS, inputs, last);
       
-      if(are_same(N_SNIPPING_PINS, inputs, win_mask)){
+      if(are_same(N_SNIPPING_PINS, inputs, mask)){
         success();
         return;
       }
