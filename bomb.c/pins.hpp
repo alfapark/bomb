@@ -32,3 +32,9 @@ void set_kth_pin_low_only(int n, int k, int * pins){
     digitalWrite(pins[i], i == k ? LOW : HIGH);
   }
 }
+
+void set_all_pins_to_value(int n, int * pins, int value){
+  for(int i = 0; i < n; ++i){
+    digitalWrite(pins[i],value);
+  }
+}

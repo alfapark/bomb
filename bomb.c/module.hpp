@@ -8,7 +8,7 @@ public:
     pinMode(success_led_pin, OUTPUT);  
     pinMode(fail_led_pin, OUTPUT);
   }
-  //virtual void run() = 0;
+  virtual void run() = 0;
 
   bool is_solved();
   
@@ -17,7 +17,8 @@ public:
   void fail();
   void success();
   void blank_state();
-
+  
+  static const int debounce_interval = 50;
 private: 
 
   void update_leds();
