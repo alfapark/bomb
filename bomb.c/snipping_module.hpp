@@ -2,7 +2,7 @@
 
 #include "module.hpp"
 
-const int N_SNIPPING_PINS;
+const int N_SNIPPING_PINS = 5;
 
 class SnippingModule : public Module{
 
@@ -20,7 +20,7 @@ public:
   virtual void run();
   
 private: 
-  unsigned int debounced;
+  unsigned long debounced;
   int pins[N_SNIPPING_PINS];
   int mask[N_SNIPPING_PINS];
   int last[N_SNIPPING_PINS];

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pins.hpp"
+
 class Module{
 
 public:
@@ -18,7 +20,7 @@ public:
   void success();
   void blank_state();
   
-  static const int debounce_interval = 50;
+  static const int debounce_interval = 100;
 private: 
 
   void update_leds();

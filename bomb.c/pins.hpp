@@ -38,3 +38,9 @@ void set_all_pins_to_value(int n, int * pins, int value){
     digitalWrite(pins[i],value);
   }
 }
+
+void set_mode(int n, int * pins, int mode){
+  for(int i = 0; i < n; ++i){
+      pinMode(pins[i], mode); 
+  }
+}
