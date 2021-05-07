@@ -1,5 +1,6 @@
 #include "pins.hpp"
 
+#include "capacitor_module.hpp"
 #include "connecting_module.hpp"
 #include "display_module.hpp"
 #include "snipping_module.hpp"

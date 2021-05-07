@@ -22,7 +22,7 @@ private:
   static const int threshold = 25;
 };
 
-void SnippingModule::run(){ 
+void CapacitorModule::run(){ 
   if(last_change + change_interval > millis()){
     return;
   }
@@ -36,7 +36,7 @@ void SnippingModule::run(){
   if (capacity > max_capacity){
     capacity = max_capacity;
   }
-  analogWrite(pin_meter, i);//Output pin - merak
+  analogWrite(pin_meter, capacity);//Output pin - merak
   bool inside_threshhold = capacity < threshold || max_capacity -threshold < capacity;
   if(inside_threshhold){
     fail();
