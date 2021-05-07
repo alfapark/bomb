@@ -30,6 +30,7 @@ int M4 = 17;
 int Tmeter = 10;
 int TButton = 11;
 
+Module * snipping_module = NULL;
 
 void setup() {
   // put your setup code here, to run once:
@@ -39,6 +40,9 @@ void setup() {
   pinMode(A2, INPUT_PULLUP);
   pinMode(A3, INPUT_PULLUP);
   pinMode(A4, INPUT_PULLUP);
+  int pins[5] = {A0, A1, A2, A3, A4};
+  int mask[5] = {1, 0, 0, 1, 0};
+  snipping_module = new SnippingModule(2, 3, pins, mask);
 
   // connect pins
   pinMode(CPO1, OUTPUT);
@@ -154,8 +158,9 @@ void trololo(){
 
 void loop() {
   // put your main code here, to run repeatedly:
- check_snipping();
- connect_pins();
- morse();
- trololo();
+// check_snipping();
+// connect_pins();
+// morse();
+// trololo();
+   snipping_module->run();
 }

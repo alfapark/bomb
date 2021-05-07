@@ -19,6 +19,7 @@ public:
   void fail();
   void success();
   void blank_state();
+  void update_state();
   
   static const int debounce_interval = 100;
 private: 
@@ -54,9 +55,13 @@ void Module::success(){
   update_time = millis();
 }
 void Module::blank_state(){
-  if(update_time + min_display_time > millis()){
-    digitalWrite(fail_led_pin, 0);
-    digitalWrite(success_led_pin, 0);
+  solved = false;
+  failed = false;
+}
+
+void Module::update_state(){
+  if(update_time + min_display_time < millis()){
+    update_leds();
   }
 }
 

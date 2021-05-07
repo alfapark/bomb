@@ -27,28 +27,32 @@ private:
 };
 
 void SnippingModule::run(){ 
-    if(debounced + debounce_interval > millis()){
+  if(debounced + debounce_interval > millis()){
+    return;
+  }
+  int inputs[N_SNIPPING_PINS]; 
+  read_pins(N_SNIPPING_PINS, pins, inputs);
+  if(!are_same(N_SNIPPING_PINS, last, inputs)){
+    debounced = millis();
+    Serial.print("Snipp: \t");
+    print_pins(N_SNIPPING_PINS, inputs);
+    Serial.println();
+    copy_pins(N_SNIPPING_PINS, inputs, last);
+    
+    if(are_same(N_SNIPPING_PINS, inputs, mask)){
+      Serial.println("Snipp: \tsuccess!");
+      success();
       return;
     }
-    int inputs[N_SNIPPING_PINS]; 
-    read_pins(N_SNIPPING_PINS, pins, inputs);
-    if(!are_same(N_SNIPPING_PINS, last, inputs)){
-      debounced = millis();
-      Serial.print("Snipp: \t");
-      print_pins(N_SNIPPING_PINS, inputs);
-      Serial.println();
-      copy_pins(N_SNIPPING_PINS, inputs, last);
-      
-      if(are_same(N_SNIPPING_PINS, inputs, mask)){
-        success();
+    for(int i = 0; i < N_SNIPPING_PINS; ++i){
+      if(mask[i] == 0 && last[i] == 1){
+        Serial.println("Snipp: \tfail!");
+        fail();
         return;
       }
-      for(int i = 0; i < N_SNIPPING_PINS; ++i){
-        if(mask[i] == 1 && last[i] == 0){
-          fail();
-          return;
-        }
-      }
     }
-    blank_state();
+  Serial.println("Snipp: \tblank!");
+  blank_state();
   }
+  update_state();
+}

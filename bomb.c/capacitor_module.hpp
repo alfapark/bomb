@@ -37,8 +37,8 @@ void CapacitorModule::run(){
     capacity = max_capacity;
   }
   analogWrite(pin_meter, capacity);//Output pin - merak
-  bool inside_threshhold = capacity < threshold || max_capacity -threshold < capacity;
-  if(inside_threshhold){
+  bool inside_threshold = capacity < threshold || max_capacity -threshold < capacity;
+  if(inside_threshold){
     fail();
   }else{
     success();
