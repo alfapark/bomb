@@ -31,6 +31,7 @@ int Tmeter = 10;
 int TButton = 11;
 
 Module * snipping_module = NULL;
+Module * capacitor_module = NULL;
 
 void setup() {
   // put your setup code here, to run once:
@@ -65,6 +66,7 @@ void setup() {
   //trololo
   pinMode(TButton, INPUT_PULLUP);
   pinMode(Tmeter, OUTPUT);
+  capacitor_module = new CapacitorModule(4,5, 53,51);
 }
 
 int last_inputs_s[5] = {0};
@@ -163,4 +165,5 @@ void loop() {
 // morse();
 // trololo();
    snipping_module->run();
+   capacitor_module->run();
 }
