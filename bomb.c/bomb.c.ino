@@ -4,6 +4,7 @@
 #include "connecting_module.hpp"
 #include "display_module.hpp"
 #include "snipping_module.hpp"
+#include "switch_module.hpp"
 
 //morse
 int LED_M = 13;
@@ -16,6 +17,7 @@ Module * capacitor_module = NULL;
 Module * connection_module = NULL;
 Module * display_module = NULL;
 Module * snipping_module = NULL;
+Module * switch_module = NULL;
 
 void setup() {
   // put your setup code here, to run once:
@@ -42,6 +44,17 @@ void setup() {
   };
   connection_module = new ConnectingModule(8,9, input_pins, output_pins, win_mask);
   display_module = new DisplayModule(6,7, 52, 50, 20);
+  int switches[6] = {27,29, 31, 33, 35, 37};
+  int leds[6] = {26, 28, 30, 32, 34, 36};
+  int switches_to_leds[6][6] = {
+    {0,1,0,1,0,1},
+    {0,0,1,1,1,0},
+    {1,1,1,0,0,0},
+    {0,0,0,0,1,1},
+    {0,1,0,0,0,1},
+    {1,0,1,0,0,0}
+  };
+  switch_module = new SwitchModule(10, 11, switches, leds, switches_to_leds);
 }
 
 unsigned long previousMillis_m = 0;
@@ -74,4 +87,5 @@ void loop() {
    capacitor_module->run();
    display_module->run();
    connection_module->run();
+   switch_module->run();
 }

@@ -57,6 +57,7 @@ void Module::success(){
 void Module::blank_state(){
   solved = false;
   failed = false;
+  update_state();
 }
 
 void Module::update_state(){

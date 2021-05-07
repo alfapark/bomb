@@ -1,8 +1,8 @@
 #pragma once
 
-void read_pins(int n, int * pins, int * outputs){
+void read_pins(int n, int * pins, int * inputs){
   for(int i = 0; i < n; ++i){
-    outputs[i] = digitalRead(pins[i]);
+    inputs[i] = digitalRead(pins[i]);
   }
 }
 
@@ -36,6 +36,12 @@ void set_kth_pin_low_only(int n, int k, int * pins){
 void set_all_pins_to_value(int n, int * pins, int value){
   for(int i = 0; i < n; ++i){
     digitalWrite(pins[i],value);
+  }
+}
+
+void set_array_to_values(int n, int * pins, int value){
+  for(int i = 0; i < n; ++i){
+    pins[i] = value;
   }
 }
 
