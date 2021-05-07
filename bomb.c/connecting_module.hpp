@@ -48,30 +48,30 @@ bool ConnectingModule::check_win(){
 }
 
 void ConnectingModule::run(){ 
-  if(debounced[current_cycle] + debounce_interval > millis() ){
-    current_cycle = (current_cycle + 1) % N_CONNECT_PINS;  
-    return;
-  }
   if(last_measurement + cycle_check_length > millis()){
     return;
   }
   last_measurement = millis();
   
   //check then set for next one
-  
-  int inputs[N_CONNECT_PINS];
-  read_pins(N_CONNECT_PINS, pins_input, inputs);
-  if(!are_same(N_CONNECT_PINS, inputs, last[current_cycle])){
-    debounced[current_cycle] = millis();
-    copy_pins(N_CONNECT_PINS, inputs, last[current_cycle]);
-    Serial.print("Con ");
-    Serial.print(current_cycle);
-    Serial.print(": \t");
-    print_pins(N_CONNECT_PINS, last[current_cycle]);
-    if(check_win()){
-      success();
-    }else{
-      blank_state();
+
+  if(debounced[current_cycle] + debounce_interval < millis() ){
+    int inputs[N_CONNECT_PINS];
+    read_pins(N_CONNECT_PINS, pins_input, inputs);
+    if(!are_same(N_CONNECT_PINS, inputs, last[current_cycle])){
+      debounced[current_cycle] = millis();
+      copy_pins(N_CONNECT_PINS, inputs, last[current_cycle]);
+      Serial.print("Con ");
+      Serial.print(current_cycle);
+      Serial.print(": \t");
+      print_pins(N_CONNECT_PINS, last[current_cycle]);
+      Serial.println();
+      if(check_win()){
+        Serial.println("Success connections!");
+        success();
+      }else{
+        blank_state();
+      }
     }
   }
 
