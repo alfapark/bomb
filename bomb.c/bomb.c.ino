@@ -5,9 +5,6 @@
 #include "display_module.hpp"
 #include "snipping_module.hpp"
 
-//snipping cables
-
-
 //connect pins
 int CPO1 = 2;
 int CPO2 = 3;
@@ -26,10 +23,6 @@ int M2 = 15;
 int M3 = 16;
 int M4 = 17;
 
-// trololo
-int Tmeter = 10;
-int TButton = 11;
-
 Module * snipping_module = NULL;
 Module * capacitor_module = NULL;
 Module * display_module = NULL;
@@ -37,13 +30,6 @@ Module * display_module = NULL;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(A0, INPUT_PULLUP);
-  pinMode(A1, INPUT_PULLUP);
-  pinMode(A2, INPUT_PULLUP);
-  pinMode(A3, INPUT_PULLUP);
-  pinMode(A4, INPUT_PULLUP);
-  int pins[5] = {A0, A1, A2, A3, A4};
-  int mask[5] = {1, 0, 0, 1, 0};
   snipping_module = new SnippingModule(2, 3, pins, mask);
 
   // connect pins
@@ -64,24 +50,8 @@ void setup() {
   pinMode(M3, INPUT_PULLUP);
   pinMode(M4, INPUT_PULLUP);
 
-  //trololo
-  pinMode(TButton, INPUT_PULLUP);
-  pinMode(Tmeter, OUTPUT);
   capacitor_module = new CapacitorModule(4,5, 53,51);
   display_module = new DisplayModule(5,6, 52, 50, 20);
-}
-
-int last_inputs_s[5] = {0};
-void check_snipping(){
-  int pins[5] = {A0, A1, A2, A3, A4}; 
-  int inputs[5]; 
-  read_pins(5, pins, inputs);
-  if(!are_same(5, last_inputs_s, inputs)){
-    Serial.print("Snipp: \t");
-    print_pins(5, inputs);
-    Serial.println();
-    copy_pins(5, inputs, last_inputs_s);
-  }
 }
 
 unsigned long previousMillis_cp = 0;        // will store last time LED was updated
@@ -142,30 +112,7 @@ void morse(){
   }
 }
 
-unsigned long last_change = 0;
-int interval = 100;
-int i = 0;
-void trololo(){
-  if(last_change + interval < millis()){
-    last_change = millis();
-    i--;
-    if (i < 0)i = 0;
-    if (digitalRead(TButton) == 0){
-      i = i + 10; //Tlacitko na dobijeni casu
-    }
-    if (i > 255){
-      i = 255;
-    }
-    analogWrite(Tmeter, i);//Output pin - merak
-  }
-}
-
 void loop() {
-  // put your main code here, to run repeatedly:
-// check_snipping();
-// connect_pins();
-// morse();
-// trololo();
    snipping_module->run();
    capacitor_module->run();
    display_module->run();
