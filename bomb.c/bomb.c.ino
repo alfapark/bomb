@@ -32,6 +32,7 @@ int TButton = 11;
 
 Module * snipping_module = NULL;
 Module * capacitor_module = NULL;
+Module * display_module = NULL;
 
 void setup() {
   // put your setup code here, to run once:
@@ -67,6 +68,7 @@ void setup() {
   pinMode(TButton, INPUT_PULLUP);
   pinMode(Tmeter, OUTPUT);
   capacitor_module = new CapacitorModule(4,5, 53,51);
+  display_module = new DisplayModule(5,6, 52, 50, 20);
 }
 
 int last_inputs_s[5] = {0};
@@ -166,4 +168,5 @@ void loop() {
 // trololo();
    snipping_module->run();
    capacitor_module->run();
+   display_module->run();
 }
