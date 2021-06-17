@@ -22,7 +22,7 @@ void setup() {
   int mask[5] = {1, 0, 0, 1, 0};
   snipping_module = new SnippingModule(2, 3, pins, mask);
 
-  capacitor_module = new CapacitorModule(4,5, 53,51);
+  capacitor_module = new CapacitorModule(4,5, 53,51, 30);
   int input_pins[4] = {42, 44, 46, 48};
   int output_pins[4] = {43, 45, 47, 49};
   int win_mask[4][4] = {
