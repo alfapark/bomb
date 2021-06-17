@@ -3,6 +3,7 @@
 #include "capacitor_module.hpp"
 #include "connecting_module.hpp"
 #include "display_module.hpp"
+#include "morse_module.hpp"
 #include "snipping_module.hpp"
 #include "switch_module.hpp"
 
@@ -16,6 +17,7 @@ int M4 = 17;
 Module * capacitor_module = NULL;
 Module * connection_module = NULL;
 Module * display_module = NULL;
+Module * morse_module = NULL;
 Module * snipping_module = NULL;
 Module * switch_module = NULL;
 
