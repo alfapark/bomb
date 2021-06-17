@@ -8,7 +8,8 @@ class MorseModule : public Module{
 
 public:
   /*
-   * win presses is sequence of index of the pins that have to be activated, one at the time
+   * morse sequence 0 = short signal, 1 = long signal, 2 = long pause, short pause is implicit
+   * * win presses is sequence of index of the pins that have to be activated, one at the time
    * the same button multiple times in win sequence might be skipped due to wrong release of it
   */
   MorseModule(int success_led_pin, int fail_led_pin, int led_pin, int morse_sequence[], int n_morse_length, int button_pins[N_MORSE_BUTTONS], int win_presses[], int n_win_presses): 
@@ -38,27 +39,38 @@ private:
   int curent_morse_position;
   unsigned long curent_morse_start;
 
-  static const int SHORT_SIGNAL = 200;
-  static const int LONG_SIGNAL = 700;
-  static const int WAIT = 300;
+  static const int SHORT_SIGNAL = 500;
+  static const int LONG_SIGNAL = 1000;
+  static const int PAUSE = 300;
+  static const int PAUSE_PROLONGATION = 1000;
+  static const int REPEAT_PAUSE = 2000;
   void display_morse();
 
   static const int MORSE_PENALTY = 4000;
 };
 
-// TODO wait after word end
 void MorseModule::display_morse(){
+  int wait_time = PAUSE;
+  while(morse_code[curent_morse_position] == 2){
+    wait_time += PAUSE_PROLONGATION;
+    ++curent_morse_position;
+    if(curent_morse_position == morse_length){
+      curent_morse_position = 0;
+      curent_morse_start += REPEAT_PAUSE;
+      return;
+    }
+  }
   unsigned long signal_time = (morse_code[curent_morse_position]) ? LONG_SIGNAL : SHORT_SIGNAL;
-  if(curent_morse_start + WAIT <= millis() && millis() <= curent_morse_start + WAIT + signal_time){
+  if(curent_morse_start + wait_time <= millis() && millis() <= curent_morse_start + wait_time + signal_time){
     digitalWrite(morse_led, 1);
-  } else if(curent_morse_start + WAIT + signal_time <= millis()){
+  } else if(curent_morse_start + wait_time + signal_time <= millis()){
     
     digitalWrite(morse_led, 0);
     curent_morse_position += 1;
     curent_morse_start = millis();
     if(curent_morse_position == morse_length){
       curent_morse_position = 0;
-      curent_morse_start += WAIT;
+      curent_morse_start += REPEAT_PAUSE;
     }
   }
 }

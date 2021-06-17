@@ -38,7 +38,7 @@ void setup() {
     {0, 1, 1, 1},
   };
   connection_module = new ConnectingModule(8,9, input_pins, output_pins, win_mask);
-  display_module = new DisplayModule(6,7, 52, 50, 120);
+  display_module = new DisplayModule(6,7, 52, 50, 1200);
   int switches[6] = {27,29, 31, 33, 35, 37};
   int leds[6] = {26, 28, 30, 32, 34, 36};
   int switches_to_leds[6][6] = {
@@ -51,10 +51,10 @@ void setup() {
   };
   switch_module = new SwitchModule(10, 11, switches, leds, switches_to_leds);
 
-  int morse_sequence[] = {0,1,1,0,1};
+  int morse_sequence[] = {0,1,1,0,2,0, 2,0,1,1,0,2,0,0,2,0,1,0};
   int button_pins[] = {A8, A9, A10, A11};
-  int win_sequence[] = {0,1,2,3};
-  morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
+  int win_sequence[] = {0,2, 1,3, 1, 2, 0};
+  morse_module = new MorseModule(A13, A14, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
 
 
   modules[0] = snipping_module;
