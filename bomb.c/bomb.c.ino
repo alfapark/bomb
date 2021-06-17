@@ -15,9 +15,15 @@ Module * morse_module = NULL;
 Module * snipping_module = NULL;
 Module * switch_module = NULL;
 
+int TONE_PIN = A7;
+int BEEP_TONE = 100;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+
+  pinMode(TONE_PIN, OUTPUT);
+  
   int pins[5] = {A0, A1, A2, A3, A4};
   int mask[5] = {1, 0, 0, 1, 0};
   snipping_module = new SnippingModule(2, 3, pins, mask);
@@ -71,11 +77,13 @@ void loop() {
 
   if(penalty != 0){
     Serial.println(penalty); 
+    tone(TONE_PIN, BEEP_TONE, 500);
   }
   display_module->penalize(penalty);
   display_module->run();
 
   if(all_solved || display_module->is_failed()){
+    tone(TONE_PIN, BEEP_TONE);
     while(true){
       delay(1000);
     }
