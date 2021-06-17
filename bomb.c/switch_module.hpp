@@ -19,7 +19,6 @@ public:
   } 
 
   virtual void run();
-
   
 private: 
   int pins_switches[N_SWITCH_PINS];

@@ -6,20 +6,26 @@ class Module{
 
 public:
   Module(int success_led_pin, int fail_led_pin): 
-  success_led_pin(success_led_pin), fail_led_pin(fail_led_pin), update_time(0), solved(false), failed(false){
+  success_led_pin(success_led_pin), fail_led_pin(fail_led_pin), update_time(0), solved(false), failed(false), penalty(0), penalty_written_at(millis()){
     pinMode(success_led_pin, OUTPUT);  
     pinMode(fail_led_pin, OUTPUT);
   }
   virtual void run() = 0;
 
+  int get_penalty();
+  
   bool is_solved();
   
   bool is_failed();
 
+protected: 
+  
+  void set_penalty(int amount);
   void fail();
   void success();
   void blank_state();
   void update_state();
+
   
   static const int debounce_interval = 100;
 private: 
@@ -32,6 +38,10 @@ private:
   bool solved = false;
   bool failed = false;
   static const int min_display_time = 500;
+
+  int penalty;
+  unsigned long penalty_written_at;
+  static const unsigned long  penalty_cooldown = 1000;
 };
 
 bool Module::is_solved(){
@@ -54,7 +64,7 @@ void Module::success(){
   update_leds();
   update_time = millis();
 }
-void Module::blank_state(){
+void Module::blank_state(){ 
   solved = false;
   failed = false;
   update_state();
@@ -69,4 +79,18 @@ void Module::update_state(){
 void Module::update_leds(){
   digitalWrite(success_led_pin, solved);
   digitalWrite(fail_led_pin, failed);
+}
+
+void Module::set_penalty(int amount){
+  if(penalty_written_at + penalty_cooldown<= millis()){
+    penalty += amount; 
+    penalty_written_at = millis();
+  }
+}
+
+
+int Module::get_penalty(){
+  int tmp = penalty;
+  penalty = 0;
+  return tmp;
 }

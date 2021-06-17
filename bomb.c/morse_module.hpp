@@ -22,7 +22,6 @@ public:
   }
 
   virtual void run();
-
   
 private: 
   unsigned long debounced;
@@ -39,10 +38,12 @@ private:
   int curent_morse_position;
   unsigned long curent_morse_start;
 
-  static const unsigned long SHORT_SIGNAL = 200;
-  static const unsigned long LONG_SIGNAL = 700;
-  static const unsigned long WAIT = 300;
+  static const int SHORT_SIGNAL = 200;
+  static const int LONG_SIGNAL = 700;
+  static const int WAIT = 300;
   void display_morse();
+
+  static const int MORSE_PENALTY = 4000;
 };
 
 // TODO wait after word end
@@ -71,12 +72,12 @@ void MorseModule::run(){
     if(inputs[i] == 0){
       if(held_button != -1 && held_button != i){
         fail();
+        set_penalty(MORSE_PENALTY);
         Serial.print("Mor: more than one pressed: ");
         print_pins(N_MORSE_BUTTONS, inputs);
         Serial.println();
         button_waiting_on_release = true;
         completed = 0;
-        blank_state();
         return;
       } else if(held_button == -1){
         debounced = millis();
@@ -117,6 +118,7 @@ void MorseModule::run(){
     return;
   }else{
     fail();
+    set_penalty(MORSE_PENALTY);
     completed = 0;
     button_waiting_on_release = true;
     Serial.print("Mor: wrong button ");

@@ -28,6 +28,8 @@ private:
   static const int gain_interval = 50;
   static const int max_capacity = 100;
   static const int threshold = 25;
+
+  static const int capacitor_penalty = 2000;
 };
 
 void CapacitorModule::run(){ 
@@ -55,6 +57,7 @@ void CapacitorModule::run(){
   bool inside_threshold = capacity < threshold || max_capacity -threshold < capacity;
   if(inside_threshold){
     fail();
+    set_penalty(capacitor_penalty);
   }else{
     success();
   }

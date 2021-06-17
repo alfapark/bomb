@@ -16,6 +16,7 @@ public:
 
   virtual void run();
 
+  void penalize(int amount);
   
 private: 
   unsigned long start;
@@ -43,4 +44,8 @@ void DisplayModule::run(){
     segment_display.showNumberDecEx(to_display,  show_colon, true, 4, 0);
     segment_display.setSegments(data);
   }
+}
+
+void DisplayModule::penalize(int amount){
+  duration -= amount;
 }
