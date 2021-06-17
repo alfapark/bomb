@@ -64,36 +64,11 @@ void setup() {
   morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence), button_pins, win_sequence, sizeof(win_sequence));
 }
 
-unsigned long previousMillis_m = 0;
-int interval_m = 500;
-int i_m = 0;
-void morse_diode(){
-  if(previousMillis_m + interval_m < millis()){
-    digitalWrite(LED_M, i_m);
-    previousMillis_m = millis();
-    i_m = i_m == 0;
-  }
-}
-
-int last_inputs_morse[4];
-void morse(){
-  morse_diode();
-  int pins[4] = {M1, M2, M3, M4};
-  int inputs[4];
-  read_pins(4, pins, inputs);
-  if(!are_same(4, inputs, last_inputs_morse)){
-    Serial.print("Morse: \t");
-    print_pins(4, inputs);
-    copy_pins(4, inputs, last_inputs_morse);
-    Serial.println();
-  }
-}
-
 void loop() {
    snipping_module->run();
    capacitor_module->run();
    display_module->run();
    connection_module->run();
    switch_module->run();
-   morse_modue->run();
+   morse_module->run();
 }

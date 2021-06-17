@@ -17,6 +17,7 @@ public:
     set_mode(N_MORSE_BUTTONS, pins_buttons, INPUT_PULLUP);
     pinMode(led_pin, OUTPUT);
     copy_pins(n_win_presses, win_presses, win_sequence);
+    copy_pins(n_morse_length, morse_sequence, morse_code);
   }
 
   virtual void run();
@@ -35,23 +36,28 @@ private:
   int morse_code[100];
   int morse_length;
   int curent_morse_position;
-  int curent_morse_start;
+  unsigned long curent_morse_start;
 
-  static const int SHORT_SIGNAL = 200;
-  static const int LONG_SIGNAL = 500;
-  static const int WAIT = 300;
+  static const unsigned long SHORT_SIGNAL = 200;
+  static const unsigned long LONG_SIGNAL = 700;
+  static const unsigned long WAIT = 300;
   void display_morse();
 };
 
-// TODO change signal
+// TODO wait after word end
 void MorseModule::display_morse(){
-  if(curent_morse_start + WAIT <= millis()){
+  unsigned long signal_time = (morse_code[curent_morse_position]) ? LONG_SIGNAL : SHORT_SIGNAL;
+  if(curent_morse_start + WAIT <= millis() && millis() <= curent_morse_start + WAIT + signal_time){
     digitalWrite(morse_led, 1);
-  } else if(curent_morse_start + WAIT + LONG_SIGNAL <= millis()){
+  } else if(curent_morse_start + WAIT + signal_time <= millis()){
     
     digitalWrite(morse_led, 0);
-    curent_morse_start = millis();
     curent_morse_position += 1;
+    curent_morse_start = millis();
+    if(curent_morse_position == morse_length){
+      curent_morse_position = 0;
+      curent_morse_start += WAIT;
+    }
   }
 }
 
@@ -64,6 +70,9 @@ void MorseModule::run(){
     if(inputs[i] == 0){
       if(held_button != -1 && held_button != i){
         fail();
+        button_waiting_on_release = true;
+        completed = 0;
+        blank_state();
         return;
       } else if(held_button == -1){
         debounced = millis();
@@ -77,7 +86,7 @@ void MorseModule::run(){
     button_waiting_on_release = false;
     return;
   }
-  if(debounced + debounce_interval > millis()){
+  if(debounced + debounce_interval > millis() || held_button == -1){
     return;
   }
   // doing progress
