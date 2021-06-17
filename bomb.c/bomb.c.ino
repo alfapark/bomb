@@ -8,6 +8,7 @@
 #include "switch_module.hpp"
 
 DisplayModule * display_module = NULL;
+Module * modules[5];
 Module * capacitor_module = NULL;
 Module * connection_module = NULL;
 Module * morse_module = NULL;
@@ -48,24 +49,35 @@ void setup() {
   int button_pins[] = {A8, A9, A10, A11};
   int win_sequence[] = {0,1,2,3};
   morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
+
+
+  modules[0] = snipping_module;
+  modules[1] = capacitor_module;
+  modules[2] = connection_module;
+  modules[3] = switch_module;
+  modules[4] = morse_module;
 }
 
 void loop() {
   int penalty = 0;
-  snipping_module->run();
-  penalty += snipping_module->get_penalty();
-  capacitor_module->run();
-  penalty += capacitor_module->get_penalty();
-  connection_module->run();
-  penalty += connection_module->get_penalty();
-  switch_module->run();
-  penalty += switch_module->get_penalty();
-  morse_module->run();
-  penalty += morse_module->get_penalty();
+  bool all_solved = true;
+
+  int n_modules = sizeof(modules)/sizeof(modules[0]);
+  for(int i = 0; i < n_modules; ++i){
+    modules[i]->run();
+    penalty += modules[i]->get_penalty();
+    all_solved = all_solved && modules[i]->is_solved();
+  }
 
   if(penalty != 0){
     Serial.println(penalty); 
   }
   display_module->penalize(penalty);
   display_module->run();
+
+  if(all_solved || display_module->is_failed()){
+    while(true){
+      delay(1000);
+    }
+  }
 }

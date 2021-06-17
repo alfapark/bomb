@@ -23,7 +23,19 @@ private:
   unsigned long last_refresh;
   unsigned long duration;
   TM1637Display segment_display;
+
+  void refresh_display();
 };
+
+void DisplayModule::refresh_display(){
+  last_refresh = millis();
+  uint8_t data[4];
+  unsigned long remaining = (start + duration - millis())/1000;
+  int to_display = remaining % 60 + (remaining/60)*100;
+  int show_colon = remaining %2 == 1 ? 0x40 :0x80;
+  segment_display.showNumberDecEx(to_display,  show_colon, true, 4, 0);
+  segment_display.setSegments(data);
+}
 
 void DisplayModule::run(){ 
   if(start + duration < millis()){
@@ -36,16 +48,11 @@ void DisplayModule::run(){
     };
     segment_display.setSegments(SEG_BUCH);
   } else if(last_refresh + 1000 < millis()){
-    last_refresh = millis();
-    uint8_t data[4];
-    unsigned long remaining = (start + duration - millis())/1000;
-    int to_display = remaining % 60 + (remaining/60)*100;
-    int show_colon = remaining %2 == 1 ? 0x40 :0x80;
-    segment_display.showNumberDecEx(to_display,  show_colon, true, 4, 0);
-    segment_display.setSegments(data);
+    refresh_display();
   }
 }
 
 void DisplayModule::penalize(int amount){
   duration -= amount;
+  refresh_display();
 }
