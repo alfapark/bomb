@@ -57,6 +57,11 @@ void setup() {
     {1,0,1,0,0,0}
   };
   switch_module = new SwitchModule(10, 11, switches, leds, switches_to_leds);
+
+  int morse_sequence[] = {0,1,1,0,1};
+  int button_pins[] = {A8, A9, A10, A11};
+  int win_sequence[] = {0,1,2,3};
+  morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence), button_pins, win_sequence, sizeof(win_sequence));
 }
 
 unsigned long previousMillis_m = 0;
@@ -90,4 +95,5 @@ void loop() {
    display_module->run();
    connection_module->run();
    switch_module->run();
+   morse_modue->run();
 }
