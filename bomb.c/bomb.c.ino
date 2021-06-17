@@ -61,7 +61,7 @@ void setup() {
   int morse_sequence[] = {0,1,1,0,1};
   int button_pins[] = {A8, A9, A10, A11};
   int win_sequence[] = {0,1,2,3};
-  morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence), button_pins, win_sequence, sizeof(win_sequence));
+  morse_module = new MorseModule(12, 13, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
 }
 
 void loop() {

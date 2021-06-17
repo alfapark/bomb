@@ -9,6 +9,7 @@ class MorseModule : public Module{
 public:
   /*
    * win presses is sequence of index of the pins that have to be activated, one at the time
+   * the same button multiple times in win sequence might be skipped due to wrong release of it
   */
   MorseModule(int success_led_pin, int fail_led_pin, int led_pin, int morse_sequence[], int n_morse_length, int button_pins[N_MORSE_BUTTONS], int win_presses[], int n_win_presses): 
   Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false),
@@ -70,6 +71,9 @@ void MorseModule::run(){
     if(inputs[i] == 0){
       if(held_button != -1 && held_button != i){
         fail();
+        Serial.print("Mor: more than one pressed: ");
+        print_pins(N_MORSE_BUTTONS, inputs);
+        Serial.println();
         button_waiting_on_release = true;
         completed = 0;
         blank_state();
@@ -84,19 +88,38 @@ void MorseModule::run(){
   if(button_waiting_on_release && inputs[held_button] == 1){
     held_button = -1;
     button_waiting_on_release = false;
+    if(completed < morse_length){
+      blank_state();
+    }
+    debounced = millis();
+    return;
+  }else if(button_waiting_on_release){
     return;
   }
+  
   if(debounced + debounce_interval > millis() || held_button == -1){
+    if(completed < morse_length){
+      blank_state();
+    }
     return;
   }
   // doing progress
   if(held_button == win_sequence[completed]){
     button_waiting_on_release = true;
     ++completed;
+    Serial.print("Mor: right button ");
+    Serial.println(held_button);
     if(completed == n){
       success();
     }
+  } else if(completed != 0 && held_button == win_sequence[completed-1]){
+    //debounce from releasing, probably not able to solve easily
+    return;
   }else{
-    fail();  
+    fail();
+    completed = 0;
+    button_waiting_on_release = true;
+    Serial.print("Mor: wrong button ");
+    Serial.println(held_button);
   } 
 }
