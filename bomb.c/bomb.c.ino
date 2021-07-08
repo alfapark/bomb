@@ -33,11 +33,17 @@ void setup() {
   capacitor_module = new CapacitorModule(4,5, 53,51, 30);
   int input_pins[4] = {42, 44, 46, 48};
   int output_pins[4] = {43, 45, 47, 49};
-  int win_mask[4][4] = {
-    {1, 1, 1, 1},
-    {1, 1, 0, 1},
-    {1, 1, 1, 1},
+//  int win_mask[4][4] = {
+//    {1, 1, 1, 1},
+//    {1, 1, 0, 1},
+//    {1, 1, 1, 1},
+//    {0, 1, 1, 1},
+//  };
+int win_mask[4][4] = {
     {0, 1, 1, 1},
+    {1, 1, 1, 1},
+    {1, 0, 1, 1},
+    {1, 1, 0, 0},
   };
   connection_module = new ConnectingModule(8,9, input_pins, output_pins, win_mask);
   display_module = new DisplayModule(SUCCESS_LED,7, 52, 50, 1200);
