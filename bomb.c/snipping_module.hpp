@@ -8,7 +8,7 @@ class SnippingModule : public Module{
 
 public:
   SnippingModule(int success_led_pin, int fail_led_pin, int wire_pins[N_SNIPPING_PINS], int win_mask[N_SNIPPING_PINS]): 
-  Module(success_led_pin, fail_led_pin), debounced(0){
+  Module(success_led_pin, fail_led_pin), debounced(0), solved(false){
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
       pinMode(wire_pins[i], INPUT_PULLUP); 
     }
@@ -25,10 +25,15 @@ private:
   int mask[N_SNIPPING_PINS];
   int last[N_SNIPPING_PINS];
 
+  bool solved;
+
   const static unsigned long SNIPP_PENALTY = 600000 ; // 10*60*1000
 };
 
 void SnippingModule::run(){ 
+  if(solved){
+    return;
+  }
   if(debounced + debounce_interval > millis()){
     return;
   }
@@ -44,6 +49,7 @@ void SnippingModule::run(){
     if(are_same(N_SNIPPING_PINS, inputs, mask)){
       Serial.println("Snipp: \tsuccess!");
       success();
+      solved = true;
       return;
     }
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
@@ -51,6 +57,7 @@ void SnippingModule::run(){
         Serial.println("Snipp: \tfail!");
         fail();
         set_penalty(SNIPP_PENALTY);
+        solved = true;
         return;
       }
     }
