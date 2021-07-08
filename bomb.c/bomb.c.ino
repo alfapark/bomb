@@ -78,6 +78,7 @@ void loop() {
   }
 
   if(penalty != 0){
+    Serial.print("penalty ");
     Serial.println(penalty); 
     tone(TONE_PIN, BEEP_TONE, 500);
   }

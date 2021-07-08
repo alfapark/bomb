@@ -129,6 +129,7 @@ void MorseModule::run(){
     Serial.println(held_button);
     if(completed == n){
       success();
+      Serial.print("Mor: solved");
       solved = true;
     }
   } else if(completed != 0 && held_button == win_sequence[completed-1]){

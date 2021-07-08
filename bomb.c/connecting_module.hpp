@@ -24,6 +24,7 @@ ConnectingModule( int success_led_pin, int fail_led_pin, int input_pins[N_CONNEC
   
 private: 
   bool check_win();
+  bool check_fail();
 
   int current_cycle;
   unsigned long last_measurement;
@@ -34,6 +35,7 @@ private:
   int mask[N_CONNECT_PINS][N_CONNECT_PINS];
 
   static const int cycle_check_length = 10;
+  static const unsigned long CONN_PENALTY = 60000;
 };
 
 
@@ -45,6 +47,18 @@ bool ConnectingModule::check_win(){
    }
   }
   return true;
+}
+
+bool ConnectingModule::check_fail(){
+  // todo add fail when mask is 0 but last is 1
+  for(int i = 0; i < N_CONNECT_PINS; ++i){
+    for(int j = 0; j < N_CONNECT_PINS; ++j){
+      if(last[i][j] == 0 && mask[i][j] == 1){
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 void ConnectingModule::run(){ 
@@ -69,6 +83,10 @@ void ConnectingModule::run(){
       if(check_win()){
         Serial.println("Success connections!");
         success();
+      }else if(check_fail()){
+        set_penalty(CONN_PENALTY);
+        Serial.println("Fail connections!");
+        fail();
       }else{
         blank_state();
       }
