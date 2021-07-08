@@ -18,6 +18,8 @@ Module * switch_module = NULL;
 int TONE_PIN = A7;
 int BEEP_TONE = 100;
 
+int SUCCESS_LED = 6;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -38,7 +40,7 @@ void setup() {
     {0, 1, 1, 1},
   };
   connection_module = new ConnectingModule(8,9, input_pins, output_pins, win_mask);
-  display_module = new DisplayModule(6,7, 52, 50, 1200);
+  display_module = new DisplayModule(SUCCESS_LED,7, 52, 50, 1200);
   int switches[6] = {27,29, 31, 33, 35, 37};
   int leds[6] = {26, 28, 30, 32, 34, 36};
   int switches_to_leds[6][6] = {
@@ -81,6 +83,10 @@ void loop() {
   }
   display_module->penalize(penalty);
   display_module->run();
+
+  if(all_solved){
+    digitalWrite(SUCCESS_LED, 1);
+  }
 
   if(all_solved || display_module->is_failed()){
     tone(TONE_PIN, BEEP_TONE);
