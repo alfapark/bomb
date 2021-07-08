@@ -53,9 +53,9 @@ void setup() {
   };
   switch_module = new SwitchModule(10, 11, switches, leds, switches_to_leds);
 
-  int morse_sequence[] = {0,1,1,0,2,0, 2,0,1,1,0,2,0,0,2,0,1,0};
+  int morse_sequence[] = {1,1,0,0,2,1,1,2,0,1,0,2,1,1,0,0,2,0,1,0,0,2,0,0,2,1,0,2,0,1,2};
   int button_pins[] = {A8, A9, A10, A11};
-  int win_sequence[] = {0,2, 1,3, 1, 2, 0};
+  int win_sequence[] = {2,1,0,1,2,0,3};
   morse_module = new MorseModule(A13, A14, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
 
 

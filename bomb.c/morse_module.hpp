@@ -13,7 +13,7 @@ public:
    * the same button multiple times in win sequence might be skipped due to wrong release of it
   */
   MorseModule(int success_led_pin, int fail_led_pin, int led_pin, int morse_sequence[], int n_morse_length, int button_pins[N_MORSE_BUTTONS], int win_presses[], int n_win_presses): 
-  Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false), solved(false),
+  Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false), wait_time(0), solved(false),
   morse_led(led_pin), morse_length(n_morse_length), curent_morse_position(0), curent_morse_start(millis()){
     copy_pins(N_MORSE_BUTTONS, button_pins, pins_buttons);
     set_mode(N_MORSE_BUTTONS, pins_buttons, INPUT_PULLUP);
@@ -32,6 +32,7 @@ private:
   int completed;
   int held_button;
   bool button_waiting_on_release;
+  int wait_time;
 
   bool solved;
 
@@ -41,18 +42,20 @@ private:
   int curent_morse_position;
   unsigned long curent_morse_start;
 
-  static const int SHORT_SIGNAL = 500;
+  static const int SHORT_SIGNAL = 300;
   static const int LONG_SIGNAL = 1000;
-  static const int PAUSE = 300;
-  static const int PAUSE_PROLONGATION = 1000;
-  static const int REPEAT_PAUSE = 2000;
+  static const int PAUSE = 500;
+  static const int PAUSE_PROLONGATION = 1500;
+  static const int REPEAT_PAUSE = 2500;
   void display_morse();
 
   static const int MORSE_PENALTY = 4000;
 };
 
 void MorseModule::display_morse(){
-  int wait_time = PAUSE;
+  if(wait_time <= PAUSE){
+    wait_time = PAUSE;
+  }
   while(morse_code[curent_morse_position] == 2){
     wait_time += PAUSE_PROLONGATION;
     ++curent_morse_position;
@@ -70,6 +73,7 @@ void MorseModule::display_morse(){
     digitalWrite(morse_led, 0);
     curent_morse_position += 1;
     curent_morse_start = millis();
+    wait_time = PAUSE;
     if(curent_morse_position == morse_length){
       curent_morse_position = 0;
       curent_morse_start += REPEAT_PAUSE;

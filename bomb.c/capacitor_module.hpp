@@ -25,8 +25,8 @@ private:
   int pin_button;
   int capacity;
 
-  static const int loss_interval = 200;
-  static const int gain_interval = 50;
+  static const int loss_interval = 1000;
+  static const int gain_interval = 100;
   static const int max_capacity = 120;
   static const int threshold = 15;
 
