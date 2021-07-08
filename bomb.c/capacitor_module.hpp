@@ -38,6 +38,7 @@ private:
 
 void CapacitorModule::run(){ 
   if(challenge_start + grace_period >= millis()){
+    success();
     return;
   }
   

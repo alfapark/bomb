@@ -16,7 +16,7 @@ public:
 
   virtual void run();
 
-  void penalize(int amount);
+  void penalize(unsigned long amount);
   
 private: 
   unsigned long start;
@@ -52,7 +52,7 @@ void DisplayModule::run(){
   }
 }
 
-void DisplayModule::penalize(int amount){
+void DisplayModule::penalize(unsigned long amount){
   duration -= amount;
   refresh_display();
 }

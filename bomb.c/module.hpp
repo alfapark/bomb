@@ -12,7 +12,7 @@ public:
   }
   virtual void run() = 0;
 
-  int get_penalty();
+  unsigned long get_penalty();
   
   bool is_solved();
   
@@ -20,7 +20,7 @@ public:
 
 protected: 
   
-  void set_penalty(int amount);
+  void set_penalty(unsigned long amount);
   void fail();
   void success();
   void blank_state();
@@ -39,7 +39,7 @@ private:
   bool failed = false;
   static const int min_display_time = 500;
 
-  int penalty;
+  unsigned long penalty;
   unsigned long penalty_written_at;
   static const unsigned long  penalty_cooldown = 1000;
 };
@@ -81,7 +81,7 @@ void Module::update_leds(){
   digitalWrite(fail_led_pin, failed);
 }
 
-void Module::set_penalty(int amount){
+void Module::set_penalty(unsigned long amount){
   if(penalty_written_at + penalty_cooldown<= millis()){
     penalty += amount; 
     penalty_written_at = millis();
@@ -89,8 +89,8 @@ void Module::set_penalty(int amount){
 }
 
 
-int Module::get_penalty(){
-  int tmp = penalty;
+unsigned long Module::get_penalty(){
+  unsigned long tmp = penalty;
   penalty = 0;
   return tmp;
 }

@@ -65,7 +65,7 @@ void setup() {
 }
 
 void loop() {
-  int penalty = 0;
+  unsigned long penalty = 0;
   bool all_solved = true;
 
   int n_modules = sizeof(modules)/sizeof(modules[0]);

@@ -13,7 +13,7 @@ public:
    * the same button multiple times in win sequence might be skipped due to wrong release of it
   */
   MorseModule(int success_led_pin, int fail_led_pin, int led_pin, int morse_sequence[], int n_morse_length, int button_pins[N_MORSE_BUTTONS], int win_presses[], int n_win_presses): 
-  Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false),
+  Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false), solved(false),
   morse_led(led_pin), morse_length(n_morse_length), curent_morse_position(0), curent_morse_start(millis()){
     copy_pins(N_MORSE_BUTTONS, button_pins, pins_buttons);
     set_mode(N_MORSE_BUTTONS, pins_buttons, INPUT_PULLUP);
@@ -32,6 +32,8 @@ private:
   int completed;
   int held_button;
   bool button_waiting_on_release;
+
+  bool solved;
 
   int morse_led;
   int morse_code[100];
@@ -76,6 +78,9 @@ void MorseModule::display_morse(){
 }
 
 void MorseModule::run(){ 
+  if(solved){
+    return;
+  }
   display_morse();
   // reading input
   int inputs[N_MORSE_BUTTONS];
@@ -124,6 +129,7 @@ void MorseModule::run(){
     Serial.println(held_button);
     if(completed == n){
       success();
+      solved = true;
     }
   } else if(completed != 0 && held_button == win_sequence[completed-1]){
     //debounce from releasing, probably not able to solve easily

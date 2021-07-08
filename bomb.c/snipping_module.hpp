@@ -24,6 +24,8 @@ private:
   int pins[N_SNIPPING_PINS];
   int mask[N_SNIPPING_PINS];
   int last[N_SNIPPING_PINS];
+
+  const static unsigned long SNIPP_PENALTY = 600000 ; // 10*60*1000
 };
 
 void SnippingModule::run(){ 
@@ -48,6 +50,7 @@ void SnippingModule::run(){
       if(mask[i] == 0 && last[i] == 1){
         Serial.println("Snipp: \tfail!");
         fail();
+        set_penalty(SNIPP_PENALTY);
         return;
       }
     }
