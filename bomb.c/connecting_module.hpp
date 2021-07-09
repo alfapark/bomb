@@ -35,7 +35,7 @@ private:
   int mask[N_CONNECT_PINS][N_CONNECT_PINS];
 
   static const int cycle_check_length = 10;
-  static const unsigned long CONN_PENALTY = 60000;
+  static const unsigned long CONN_PENALTY = 120000;
 };
 
 
@@ -90,6 +90,8 @@ void ConnectingModule::run(){
       }else{
         blank_state();
       }
+    } else if(!check_win() && !check_fail()) {
+      blank_state();
     }
   }
 

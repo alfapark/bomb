@@ -27,26 +27,20 @@ void setup() {
   pinMode(TONE_PIN, OUTPUT);
   
   int pins[5] = {A0, A1, A2, A3, A4};
-  int mask[5] = {1, 0, 0, 1, 0};
+  int mask[5] = {1, 0, 1, 0, 1};
   snipping_module = new SnippingModule(2, 3, pins, mask);
 
-  capacitor_module = new CapacitorModule(4,5, 53,51, 30);
+  capacitor_module = new CapacitorModule(4,5, 53,51, 120);
   int input_pins[4] = {42, 44, 46, 48};
   int output_pins[4] = {43, 45, 47, 49};
-//  int win_mask[4][4] = {
-//    {1, 1, 1, 1},
-//    {1, 1, 0, 1},
-//    {1, 1, 1, 1},
-//    {0, 1, 1, 1},
-//  };
-int win_mask[4][4] = {
+  int win_mask[4][4] = {
     {0, 1, 1, 1},
     {1, 1, 1, 1},
     {1, 0, 1, 1},
     {1, 1, 0, 0},
   };
   connection_module = new ConnectingModule(8,9, input_pins, output_pins, win_mask);
-  display_module = new DisplayModule(SUCCESS_LED,7, 52, 50, 1200);
+  display_module = new DisplayModule(SUCCESS_LED,7, 52, 50, 5600);
   int switches[6] = {27,29, 31, 33, 35, 37};
   int leds[6] = {26, 28, 30, 32, 34, 36};
   int switches_to_leds[6][6] = {
@@ -61,7 +55,7 @@ int win_mask[4][4] = {
 
   int morse_sequence[] = {1,1,0,0,2,1,1,2,0,1,0,2,1,1,0,0,2,0,1,0,0,2,0,0,2,1,0,2,0,1,2};
   int button_pins[] = {A8, A9, A10, A11};
-  int win_sequence[] = {2,1,0,1,2,0,3};
+  int win_sequence[] = {2,1,0,1,2,0,2};
   morse_module = new MorseModule(A13, A14, A12, morse_sequence, sizeof(morse_sequence)/sizeof(int), button_pins, win_sequence, sizeof(win_sequence)/sizeof(int));
 
 
@@ -96,7 +90,9 @@ void loop() {
   }
 
   if(all_solved || display_module->is_failed()){
-    tone(TONE_PIN, BEEP_TONE);
+    if(display_module->is_failed()){
+      tone(TONE_PIN, BEEP_TONE); 
+    }
     while(true){
       delay(1000);
     }

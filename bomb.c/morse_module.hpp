@@ -42,14 +42,14 @@ private:
   int curent_morse_position;
   unsigned long curent_morse_start;
 
-  static const int SHORT_SIGNAL = 300;
+  static const int SHORT_SIGNAL = 250;
   static const int LONG_SIGNAL = 1000;
   static const int PAUSE = 500;
   static const int PAUSE_PROLONGATION = 1500;
-  static const int REPEAT_PAUSE = 2500;
+  static const int REPEAT_PAUSE = 3000;
   void display_morse();
 
-  static const int MORSE_PENALTY = 4000;
+  static const int MORSE_PENALTY = 15000;
 };
 
 void MorseModule::display_morse(){

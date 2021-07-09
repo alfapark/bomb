@@ -7,7 +7,7 @@
 class CapacitorModule : public Module{
 
 public:
-  CapacitorModule(int success_led_pin, int fail_led_pin, int meter_pin, int button_pin, int seconds_before_start): 
+  CapacitorModule(int success_led_pin, int fail_led_pin, int meter_pin, int button_pin, unsigned long seconds_before_start): 
   Module(success_led_pin, fail_led_pin), last_change_loss(0), last_change_gain(0), pin_meter(meter_pin), pin_button(button_pin), capacity(max_capacity-threshold-1),
   challenge_start(millis()), grace_period(seconds_before_start*1000){
     pinMode(button_pin, INPUT_PULLUP);
@@ -31,9 +31,9 @@ private:
   static const int threshold = 15;
 
   unsigned long challenge_start;
-  int grace_period;
+  unsigned long grace_period;
 
-  static const int capacitor_penalty = 2000;
+  static const int capacitor_penalty = 3000;
 };
 
 void CapacitorModule::run(){ 

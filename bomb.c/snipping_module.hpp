@@ -27,7 +27,7 @@ private:
 
   bool solved;
 
-  const static unsigned long SNIPP_PENALTY = 600000 ; // 10*60*1000
+  const static unsigned long SNIPP_PENALTY = 1200000 ; // 20*60*1000
 };
 
 void SnippingModule::run(){ 
@@ -49,7 +49,7 @@ void SnippingModule::run(){
     if(are_same(N_SNIPPING_PINS, inputs, mask)){
       Serial.println("Snipp: \tsuccess!");
       success();
-      solved = true;
+      // solved = true;
       return;
     }
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
