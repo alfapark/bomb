@@ -43,9 +43,12 @@ void SwitchModule::run(){
     digitalWrite(pins_led[i], to_display[i]);
     solved_flag = solved_flag && to_display[i];
   }
+  int all_turned_off[N_SWITCH_PINS] = {1,1,1,1,1,1};
   if(solved_flag){
     success();
-  }else{
+  }else if(are_same(N_SWITCH_PINS, pins_switches, all_turned_off)){
+    blank_state();
+  } else{
     fail();
   }
 }
