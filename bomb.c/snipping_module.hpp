@@ -9,16 +9,14 @@ class SnippingModule : public Module{
 public:
   SnippingModule(int success_led_pin, int fail_led_pin, int wire_pins[N_SNIPPING_PINS], int win_mask[N_SNIPPING_PINS]): 
   Module(success_led_pin, fail_led_pin), debounced(0), solved(false){
-    for(int i = 0; i < N_SNIPPING_PINS; ++i){
-      pinMode(wire_pins[i], INPUT_PULLUP); 
-    }
+    set_mode(N_SNIPPING_PINS, wire_pins, INPUT_PULLUP);
     copy_pins(N_SNIPPING_PINS, wire_pins, pins);
     copy_pins(N_SNIPPING_PINS, win_mask, mask);
-    set_all_pins_to_value(N_SNIPPING_PINS, last, 1);
+    set_array_to_values(N_SNIPPING_PINS, last, 0);
   }
 
   virtual void run();
-  virtual bool is_solved();
+  virtual bool is_solved() const;
   
 private: 
   unsigned long debounced;
@@ -68,6 +66,6 @@ void SnippingModule::run(){
 }
 
 
-bool SnippingModule::is_solved(){
+bool SnippingModule::is_solved() const{
   return solved;
 }
