@@ -49,7 +49,7 @@ private:
   static const int REPEAT_PAUSE = 3000;
   void display_morse();
 
-  static const int MORSE_PENALTY = 15000;
+  static const unsigned long MORSE_PENALTY = 60000;
 };
 
 void MorseModule::display_morse(){

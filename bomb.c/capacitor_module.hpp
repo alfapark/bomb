@@ -33,7 +33,7 @@ private:
   unsigned long challenge_start;
   unsigned long grace_period;
 
-  static const int capacitor_penalty = 3000;
+  static const unsigned long capacitor_penalty = 5000;
 };
 
 void CapacitorModule::run(){ 

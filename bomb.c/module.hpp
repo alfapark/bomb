@@ -14,7 +14,7 @@ public:
 
   unsigned long get_penalty();
   
-  bool is_solved();
+  virtual bool is_solved();
   
   bool is_failed();
 

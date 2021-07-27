@@ -18,6 +18,7 @@ public:
   }
 
   virtual void run();
+  virtual bool is_solved();
   
 private: 
   unsigned long debounced;
@@ -49,7 +50,7 @@ void SnippingModule::run(){
     if(are_same(N_SNIPPING_PINS, inputs, mask)){
       Serial.println("Snipp: \tsuccess!");
       success();
-      // solved = true;
+      solved = true;
       return;
     }
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
@@ -65,4 +66,9 @@ void SnippingModule::run(){
   blank_state();
   }
   update_state();
+}
+
+
+bool SnippingModule::is_solved(){
+  return solved;
 }
