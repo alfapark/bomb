@@ -17,7 +17,7 @@ public:
     myservo.attach(meter_pin);
   }
 
-  virtual void run();
+  virtual void run() override;
   
 private: 
   Servo myservo;

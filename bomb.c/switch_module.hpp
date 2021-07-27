@@ -18,7 +18,7 @@ public:
     set_mode(N_SWITCH_PINS, switch_pins, INPUT_PULLUP);
   } 
 
-  virtual void run();
+  virtual void run() override;
   
 private: 
   int pins_switches[N_SWITCH_PINS];

@@ -14,7 +14,7 @@ public:
     segment_display.setBrightness(0x0f);
   }
 
-  virtual void run();
+  virtual void run() override;
 
   void penalize(unsigned long amount);
   

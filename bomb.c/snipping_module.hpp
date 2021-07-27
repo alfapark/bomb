@@ -15,8 +15,8 @@ public:
     set_array_to_values(N_SNIPPING_PINS, last, 0);
   }
 
-  virtual void run();
-  virtual bool is_solved() const;
+  virtual void run() override;
+  virtual bool is_solved() const override;
   
 private: 
   unsigned long debounced;

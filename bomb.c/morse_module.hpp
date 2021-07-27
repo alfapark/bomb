@@ -22,7 +22,7 @@ public:
     copy_array(n_morse_length, morse_sequence, morse_code);
   }
 
-  virtual void run();
+  virtual void run() override;
   
 private: 
   unsigned long debounced;

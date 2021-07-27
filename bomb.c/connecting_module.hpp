@@ -20,7 +20,7 @@ ConnectingModule( int success_led_pin, int fail_led_pin, int input_pins[N_CONNEC
     copy_array(N_CONNECT_PINS, input_pins, pins_input);
     copy_array(N_CONNECT_PINS, output_pins, pins_output);
   }
-  virtual void run();
+  virtual void run() override;
   
 private: 
   unsigned long debounced[N_CONNECT_PINS]; //debounce for each cycle separately
