@@ -16,7 +16,7 @@ ConnectingModule( int success_led_pin, int fail_led_pin, int input_pins[N_CONNEC
       debounced[i] = 0;
     }
     set_mode(N_CONNECT_PINS, input_pins, INPUT_PULLUP);
-    set_mode(N_CONNECT_PINS, output_pins, INPUT_PULLUP);
+    set_mode(N_CONNECT_PINS, output_pins, OUTPUT);
     copy_pins(N_CONNECT_PINS, input_pins, pins_input);
     copy_pins(N_CONNECT_PINS, output_pins, pins_output);
   }
