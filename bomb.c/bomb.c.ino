@@ -73,7 +73,7 @@ void loop() {
   int n_modules = sizeof(modules)/sizeof(modules[0]);
   for(int i = 0; i < n_modules; ++i){
     modules[i]->run();
-    penalty += modules[i]->get_penalty();
+    penalty += modules[i]->retrieve_penalty();
     all_solved = all_solved && modules[i]->is_solved();
   }
 

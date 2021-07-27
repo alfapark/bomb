@@ -12,7 +12,10 @@ public:
   }
   virtual void run() = 0;
 
-  unsigned long get_penalty() const;
+  /*
+   * The penalty count on this object is set to zero
+   */
+  unsigned long retrieve_penalty();
   
   virtual bool is_solved() const;
   
@@ -45,11 +48,11 @@ private:
   static const unsigned long min_display_time = 500;
 };
 
-bool Module::is_solved(){
+bool Module::is_solved() const{
   return solved;
 }
 
-bool Module::is_failed(){
+bool Module::is_failed() const{
   return failed;
 }
 
@@ -91,7 +94,7 @@ void Module::set_penalty(unsigned long amount){
 }
 
 
-unsigned long Module::get_penalty(){
+unsigned long Module::retrieve_penalty(){
   unsigned long tmp = penalty;
   penalty = 0;
   return tmp;
