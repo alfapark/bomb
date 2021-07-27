@@ -12,11 +12,11 @@ public:
   }
   virtual void run() = 0;
 
-  unsigned long get_penalty();
+  unsigned long get_penalty() const;
   
-  virtual bool is_solved();
+  virtual bool is_solved() const;
   
-  bool is_failed();
+  bool is_failed() const;
 
 protected: 
   
@@ -37,11 +37,12 @@ private:
   unsigned long update_time;
   bool solved = false;
   bool failed = false;
-  static const unsigned long min_display_time = 500;
 
   unsigned long penalty;
   unsigned long penalty_written_at;
-  static const unsigned long  penalty_cooldown = 1000;
+  
+  static const unsigned long penalty_cooldown = 1000;
+  static const unsigned long min_display_time = 500;
 };
 
 bool Module::is_solved(){
