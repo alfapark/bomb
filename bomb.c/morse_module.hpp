@@ -15,11 +15,11 @@ public:
   MorseModule(int success_led_pin, int fail_led_pin, int led_pin, int morse_sequence[], int n_morse_length, int button_pins[N_MORSE_BUTTONS], int win_presses[], int n_win_presses): 
   Module(success_led_pin, fail_led_pin), debounced(0), n(n_win_presses), completed(0), held_button(-1), button_waiting_on_release(false), wait_time(0), solved(false),
   morse_led(led_pin), morse_length(n_morse_length), curent_morse_position(0), curent_morse_start(millis()){
-    copy_pins(N_MORSE_BUTTONS, button_pins, pins_buttons);
+    copy_array(N_MORSE_BUTTONS, button_pins, pins_buttons);
     set_mode(N_MORSE_BUTTONS, pins_buttons, INPUT_PULLUP);
     pinMode(led_pin, OUTPUT);
-    copy_pins(n_win_presses, win_presses, win_sequence);
-    copy_pins(n_morse_length, morse_sequence, morse_code);
+    copy_array(n_win_presses, win_presses, win_sequence);
+    copy_array(n_morse_length, morse_sequence, morse_code);
   }
 
   virtual void run();

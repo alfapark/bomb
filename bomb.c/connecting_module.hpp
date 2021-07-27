@@ -12,13 +12,13 @@ ConnectingModule( int success_led_pin, int fail_led_pin, int input_pins[N_CONNEC
   Module(success_led_pin, fail_led_pin), current_cycle(0), last_measurement(0){
     for(int i = 0; i < N_CONNECT_PINS; ++i){
       set_array_to_values(N_CONNECT_PINS, last[i], 1);
-      copy_pins(N_CONNECT_PINS, win_mask[i], mask[i]);
+      copy_array(N_CONNECT_PINS, win_mask[i], mask[i]);
       debounced[i] = 0;
     }
     set_mode(N_CONNECT_PINS, input_pins, INPUT_PULLUP);
     set_mode(N_CONNECT_PINS, output_pins, OUTPUT);
-    copy_pins(N_CONNECT_PINS, input_pins, pins_input);
-    copy_pins(N_CONNECT_PINS, output_pins, pins_output);
+    copy_array(N_CONNECT_PINS, input_pins, pins_input);
+    copy_array(N_CONNECT_PINS, output_pins, pins_output);
   }
   virtual void run();
   
@@ -72,7 +72,7 @@ void ConnectingModule::run(){
     read_pins(N_CONNECT_PINS, pins_input, inputs);
     if(!are_same(N_CONNECT_PINS, inputs, last[current_cycle])){
       debounced[current_cycle] = millis();
-      copy_pins(N_CONNECT_PINS, inputs, last[current_cycle]);
+      copy_array(N_CONNECT_PINS, inputs, last[current_cycle]);
       Serial.print("Con ");
       Serial.print(current_cycle);
       Serial.print(": \t");

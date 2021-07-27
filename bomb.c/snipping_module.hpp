@@ -10,8 +10,8 @@ public:
   SnippingModule(int success_led_pin, int fail_led_pin, int wire_pins[N_SNIPPING_PINS], int win_mask[N_SNIPPING_PINS]): 
   Module(success_led_pin, fail_led_pin), debounced(0), solved(false){
     set_mode(N_SNIPPING_PINS, wire_pins, INPUT_PULLUP);
-    copy_pins(N_SNIPPING_PINS, wire_pins, pins);
-    copy_pins(N_SNIPPING_PINS, win_mask, mask);
+    copy_array(N_SNIPPING_PINS, wire_pins, pins);
+    copy_array(N_SNIPPING_PINS, win_mask, mask);
     set_array_to_values(N_SNIPPING_PINS, last, 0);
   }
 
@@ -43,7 +43,7 @@ void SnippingModule::run(){
     Serial.print("Snipp: \t");
     print_pins(N_SNIPPING_PINS, inputs);
     Serial.println();
-    copy_pins(N_SNIPPING_PINS, inputs, last);
+    copy_array(N_SNIPPING_PINS, inputs, last);
     
     if(are_same(N_SNIPPING_PINS, inputs, mask)){
       Serial.println("Snipp: \tsuccess!");

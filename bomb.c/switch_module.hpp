@@ -9,13 +9,13 @@ class SwitchModule : public Module{
 public:
   SwitchModule(int success_led_pin, int fail_led_pin, int switch_pins[N_SWITCH_PINS], int led_pins[N_SWITCH_PINS], int switch_to_leds[N_SWITCH_PINS][N_SWITCH_PINS]): 
   Module(success_led_pin, fail_led_pin){
-    copy_pins(N_SWITCH_PINS, switch_pins, pins_switches);
-    copy_pins(N_SWITCH_PINS, led_pins, pins_led);
+    copy_array(N_SWITCH_PINS, switch_pins, pins_switches);
+    copy_array(N_SWITCH_PINS, led_pins, pins_led);
     for(int i = 0; i < N_SWITCH_PINS; ++i){
-      copy_pins(N_SWITCH_PINS, switch_to_leds[i], switch_leds[i]);
-      pinMode(led_pins[i], OUTPUT);
-      pinMode(switch_pins[i], INPUT_PULLUP);
+      copy_array(N_SWITCH_PINS, switch_to_leds[i], switch_leds[i]);
     }
+    set_mode(N_SWITCH_PINS, led_pins, OUTPUT);
+    set_mode(N_SWITCH_PINS, switch_pins, INPUT_PULLUP);
   } 
 
   virtual void run();

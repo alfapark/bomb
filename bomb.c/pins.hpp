@@ -6,8 +6,8 @@ void read_pins(int n, const int * pins, int * inputs){
   }
 }
 
-void copy_pins(int n, const int * from, int * to){
-  for(int i = 0; i <n; ++i){
+void copy_array(int n, const int * from, int * to){
+  for(int i = 0; i < n; ++i){
     to[i] = from[i];
   }
 }
