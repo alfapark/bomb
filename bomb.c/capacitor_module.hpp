@@ -25,10 +25,10 @@ private:
   int pin_button;
   int capacity;
 
-  static const int loss_interval = 1000;
-  static const int gain_interval = 100;
-  static const int max_capacity = 120;
-  static const int threshold = 15;
+  static const unsigned long loss_interval = 1000;
+  static const unsigned long gain_interval = 100;
+  static const unsigned long max_capacity = 120;
+  static const unsigned long threshold = 15;
 
   unsigned long challenge_start;
   unsigned long grace_period;

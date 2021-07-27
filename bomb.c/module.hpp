@@ -27,7 +27,7 @@ protected:
   void update_state();
 
   
-  static const int debounce_interval = 100;
+  static const unsigned long debounce_interval = 100;
 private: 
 
   void update_leds();
@@ -37,7 +37,7 @@ private:
   unsigned long update_time;
   bool solved = false;
   bool failed = false;
-  static const int min_display_time = 500;
+  static const unsigned long min_display_time = 500;
 
   unsigned long penalty;
   unsigned long penalty_written_at;

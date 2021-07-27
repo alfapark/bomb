@@ -32,7 +32,7 @@ private:
   int completed;
   int held_button;
   bool button_waiting_on_release;
-  int wait_time;
+  unsigned long wait_time;
 
   bool solved;
 
@@ -42,11 +42,11 @@ private:
   int curent_morse_position;
   unsigned long curent_morse_start;
 
-  static const int SHORT_SIGNAL = 250;
-  static const int LONG_SIGNAL = 1000;
-  static const int PAUSE = 500;
-  static const int PAUSE_PROLONGATION = 1500;
-  static const int REPEAT_PAUSE = 3000;
+  static const unsigned long SHORT_SIGNAL = 250;
+  static const unsigned long LONG_SIGNAL = 1000;
+  static const unsigned long PAUSE = 500;
+  static const unsigned long PAUSE_PROLONGATION = 1500;
+  static const unsigned long REPEAT_PAUSE = 3000;
   void display_morse();
 
   static const unsigned long MORSE_PENALTY = 60000;

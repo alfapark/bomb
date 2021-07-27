@@ -34,7 +34,7 @@ private:
   int last[N_CONNECT_PINS][N_CONNECT_PINS];
   int mask[N_CONNECT_PINS][N_CONNECT_PINS];
 
-  static const int cycle_check_length = 10;
+  static const unsigned long cycle_check_length = 10;
   static const unsigned long CONN_PENALTY = 120000;
 };
 
