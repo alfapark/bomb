@@ -40,7 +40,6 @@ private:
 
 
 bool ConnectingModule::check_win(){
-  // todo add fail when mask is 0 but last is 1
   for(int i = 0; i < N_CONNECT_PINS; ++i){
    if(!are_same(N_CONNECT_PINS, last[i], mask[i])){
     return false;
@@ -50,7 +49,6 @@ bool ConnectingModule::check_win(){
 }
 
 bool ConnectingModule::check_fail(){
-  // todo add fail when mask is 0 but last is 1
   for(int i = 0; i < N_CONNECT_PINS; ++i){
     for(int j = 0; j < N_CONNECT_PINS; ++j){
       if(last[i][j] == 0 && mask[i][j] == 1){

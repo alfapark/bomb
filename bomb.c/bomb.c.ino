@@ -21,7 +21,6 @@ int BEEP_TONE = 100;
 int SUCCESS_LED = 6;
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
 
   pinMode(TONE_PIN, OUTPUT);
@@ -64,6 +63,7 @@ void setup() {
   modules[2] = connection_module;
   modules[3] = switch_module;
   modules[4] = morse_module;
+  Serial.println("Setup complete");
 }
 
 void loop() {

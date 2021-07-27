@@ -61,8 +61,8 @@ void SnippingModule::run(){
         return;
       }
     }
-  Serial.println("Snipp: \tblank!");
-  blank_state();
+    Serial.println("Snipp: \tblank!");
+    blank_state();
   }
   update_state();
 }
