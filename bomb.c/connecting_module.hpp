@@ -84,9 +84,8 @@ void ConnectingModule::run(){
         Serial.println("Success connections!");
         success();
       }else if(check_fail()){
-        set_penalty(CONN_PENALTY);
         Serial.println("Fail connections!");
-        fail();
+        fail(CONN_PENALTY);
       }else{
         blank_state();
       }

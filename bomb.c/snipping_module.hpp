@@ -56,8 +56,7 @@ void SnippingModule::run(){
     for(int i = 0; i < N_SNIPPING_PINS; ++i){
       if(mask[i] == 0 && last[i] == 1){
         Serial.println("Snipp: \tfail!");
-        fail();
-        set_penalty(SNIPP_PENALTY);
+        fail(SNIPP_PENALTY);
         solved = true;
         return;
       }

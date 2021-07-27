@@ -65,8 +65,7 @@ void CapacitorModule::run(){
   
   bool inside_threshold = capacity < threshold || max_capacity -threshold < capacity;
   if(inside_threshold){
-    fail();
-    set_penalty(capacitor_penalty);
+    fail(capacitor_penalty);
   }else{
     success();
   }

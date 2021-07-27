@@ -92,8 +92,7 @@ void MorseModule::run(){
   for(int i = 0; i < N_MORSE_BUTTONS; ++i){
     if(inputs[i] == 0){
       if(held_button != -1 && held_button != i){
-        fail();
-        set_penalty(MORSE_PENALTY);
+        fail(MORSE_PENALTY);
         Serial.print("Mor: more than one pressed: ");
         print_pins(N_MORSE_BUTTONS, inputs);
         Serial.println();
@@ -140,8 +139,7 @@ void MorseModule::run(){
     //debounce from releasing, probably not able to solve easily
     return;
   }else{
-    fail();
-    set_penalty(MORSE_PENALTY);
+    fail(MORSE_PENALTY);
     completed = 0;
     button_waiting_on_release = true;
     Serial.print("Mor: wrong button ");

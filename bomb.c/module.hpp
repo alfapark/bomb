@@ -21,7 +21,7 @@ public:
 protected: 
   
   void set_penalty(unsigned long amount);
-  void fail();
+  void fail(unsigned long penalty_amount = 0);
   void success();
   void blank_state();
   void update_state();
@@ -52,7 +52,8 @@ bool Module::is_failed(){
   return failed;
 }
 
-void Module::fail(){
+void Module::fail(unsigned long penalty_amount){
+  set_penalty(penalty_amount);
   failed = true;
   solved = false;
   update_leds();
